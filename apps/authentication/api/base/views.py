@@ -48,6 +48,11 @@ class BaseLoginAPIView(APIView):
         email = sr.data["email"]
         password = sr.data["password"]
         user = authenticate(username=email, password=password)
+        if user is None:
+            return Response(
+                {"error": "Invalid credentials"},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
         login(request, user)
 
         token = jwt_generator(user)
