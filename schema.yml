@@ -6,9 +6,9 @@ info:
 paths:
   /auth/api/v1/change-password/:
     post:
-      operationId: change_password_create
+      operationId: auth_api_v1_change_password_create
       tags:
-      - change-password
+      - auth
       security:
       - jwtAuth: []
       responses:
@@ -16,9 +16,9 @@ paths:
           description: No response body
   /auth/api/v1/login/:
     post:
-      operationId: login_create
+      operationId: auth_api_v1_login_create
       tags:
-      - login
+      - auth
       security:
       - jwtAuth: []
       - {}
@@ -27,9 +27,9 @@ paths:
           description: No response body
   /auth/api/v1/register/:
     post:
-      operationId: register_create
+      operationId: auth_api_v1_register_create
       tags:
-      - register
+      - auth
       security:
       - jwtAuth: []
       - {}
@@ -38,9 +38,9 @@ paths:
           description: No response body
   /auth/api/v1/user/:
     get:
-      operationId: user_list
+      operationId: auth_api_v1_user_list
       tags:
-      - user
+      - auth
       security:
       - jwtAuth: []
       responses:
@@ -53,9 +53,9 @@ paths:
                   $ref: '#/components/schemas/LoginData'
           description: ''
     post:
-      operationId: user_create
+      operationId: auth_api_v1_user_create
       tags:
-      - user
+      - auth
       requestBody:
         content:
           application/json:
@@ -79,7 +79,7 @@ paths:
           description: ''
   /auth/api/v1/user/{id}/:
     get:
-      operationId: user_retrieve
+      operationId: auth_api_v1_user_retrieve
       parameters:
       - in: path
         name: id
@@ -88,7 +88,7 @@ paths:
         description: A unique integer value identifying this user.
         required: true
       tags:
-      - user
+      - auth
       security:
       - jwtAuth: []
       responses:
@@ -99,7 +99,7 @@ paths:
                 $ref: '#/components/schemas/LoginData'
           description: ''
     put:
-      operationId: user_update
+      operationId: auth_api_v1_user_update
       parameters:
       - in: path
         name: id
@@ -108,7 +108,7 @@ paths:
         description: A unique integer value identifying this user.
         required: true
       tags:
-      - user
+      - auth
       requestBody:
         content:
           application/json:
@@ -131,7 +131,7 @@ paths:
                 $ref: '#/components/schemas/LoginData'
           description: ''
     patch:
-      operationId: user_partial_update
+      operationId: auth_api_v1_user_partial_update
       parameters:
       - in: path
         name: id
@@ -140,7 +140,7 @@ paths:
         description: A unique integer value identifying this user.
         required: true
       tags:
-      - user
+      - auth
       requestBody:
         content:
           application/json:
@@ -162,7 +162,7 @@ paths:
                 $ref: '#/components/schemas/LoginData'
           description: ''
     delete:
-      operationId: user_destroy
+      operationId: auth_api_v1_user_destroy
       parameters:
       - in: path
         name: id
@@ -171,7 +171,7 @@ paths:
         description: A unique integer value identifying this user.
         required: true
       tags:
-      - user
+      - auth
       security:
       - jwtAuth: []
       responses:
