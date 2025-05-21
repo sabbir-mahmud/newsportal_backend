@@ -1,0 +1,251 @@
+openapi: 3.0.3
+info:
+  title: News API
+  version: 1.0.0
+  description: API for news portal
+paths:
+  /auth/api/v1/change-password/:
+    post:
+      operationId: change_password_create
+      tags:
+      - change-password
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /auth/api/v1/login/:
+    post:
+      operationId: login_create
+      tags:
+      - login
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /auth/api/v1/register/:
+    post:
+      operationId: register_create
+      tags:
+      - register
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /auth/api/v1/user/:
+    get:
+      operationId: user_list
+      tags:
+      - user
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LoginData'
+          description: ''
+    post:
+      operationId: user_create
+      tags:
+      - user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginData'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/LoginData'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/LoginData'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginData'
+          description: ''
+  /auth/api/v1/user/{id}/:
+    get:
+      operationId: user_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      tags:
+      - user
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginData'
+          description: ''
+    put:
+      operationId: user_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      tags:
+      - user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginData'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/LoginData'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/LoginData'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginData'
+          description: ''
+    patch:
+      operationId: user_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      tags:
+      - user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedLoginData'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedLoginData'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedLoginData'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginData'
+          description: ''
+    delete:
+      operationId: user_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      tags:
+      - user
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+components:
+  schemas:
+    LoginData:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        first_name:
+          type: string
+          maxLength: 245
+        last_name:
+          type: string
+          maxLength: 245
+        email:
+          type: string
+          format: email
+          maxLength: 245
+        username:
+          type: string
+          maxLength: 245
+        admin:
+          type: boolean
+          title: Is admin
+        active:
+          type: boolean
+          title: Is active
+        date_joined:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - date_joined
+      - email
+      - first_name
+      - id
+      - last_name
+      - username
+    PatchedLoginData:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        first_name:
+          type: string
+          maxLength: 245
+        last_name:
+          type: string
+          maxLength: 245
+        email:
+          type: string
+          format: email
+          maxLength: 245
+        username:
+          type: string
+          maxLength: 245
+        admin:
+          type: boolean
+          title: Is admin
+        active:
+          type: boolean
+          title: Is active
+        date_joined:
+          type: string
+          format: date-time
+          readOnly: true
+  securitySchemes:
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
