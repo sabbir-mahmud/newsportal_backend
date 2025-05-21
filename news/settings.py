@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "django_filters",
     "apps.authentication",
     "apps.core",
+    "apps.articles",
     "drf_spectacular",
 ]
 
@@ -161,3 +162,5 @@ SPECTACULAR_SETTINGS = {
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": False,
 }
+
+NEWS_API_KEY = os.environ.get("NEWS_API_KEY")
