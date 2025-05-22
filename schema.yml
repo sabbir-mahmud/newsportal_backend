@@ -4,6 +4,208 @@ info:
   version: 1.0.0
   description: API for news portal
 paths:
+  /articles/api/v1/articles/:
+    get:
+      operationId: articles_api_v1_articles_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - articles
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedArticleGETList'
+          description: ''
+  /articles/api/v1/articles/{id}/:
+    get:
+      operationId: articles_api_v1_articles_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Article.
+        required: true
+      tags:
+      - articles
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArticleGET'
+          description: ''
+  /articles/api/v1/profiles/:
+    get:
+      operationId: articles_api_v1_profiles_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - articles
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedProfileGETList'
+          description: ''
+    post:
+      operationId: articles_api_v1_profiles_create
+      tags:
+      - articles
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BaseProfile'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BaseProfile'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BaseProfile'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseProfile'
+          description: ''
+  /articles/api/v1/profiles/{id}/:
+    get:
+      operationId: articles_api_v1_profiles_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Profile.
+        required: true
+      tags:
+      - articles
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseProfile'
+          description: ''
+    put:
+      operationId: articles_api_v1_profiles_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Profile.
+        required: true
+      tags:
+      - articles
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BaseProfile'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BaseProfile'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BaseProfile'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseProfile'
+          description: ''
+    patch:
+      operationId: articles_api_v1_profiles_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Profile.
+        required: true
+      tags:
+      - articles
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedBaseProfile'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedBaseProfile'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedBaseProfile'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseProfile'
+          description: ''
+    delete:
+      operationId: articles_api_v1_profiles_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Profile.
+        required: true
+      tags:
+      - articles
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
   /auth/api/v1/change-password/:
     post:
       operationId: auth_api_v1_change_password_create
@@ -177,8 +379,441 @@ paths:
       responses:
         '204':
           description: No response body
+  /core/api/v1/authors/:
+    get:
+      operationId: core_api_v1_authors_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - core
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedBaseAuthorList'
+          description: ''
+  /core/api/v1/authors/{id}/:
+    get:
+      operationId: core_api_v1_authors_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Author.
+        required: true
+      tags:
+      - core
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseAuthor'
+          description: ''
+  /core/api/v1/categories/:
+    get:
+      operationId: core_api_v1_categories_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - core
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedBaseCategoryList'
+          description: ''
+  /core/api/v1/categories/{id}/:
+    get:
+      operationId: core_api_v1_categories_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this category.
+        required: true
+      tags:
+      - core
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseCategory'
+          description: ''
+  /core/api/v1/countries/:
+    get:
+      operationId: core_api_v1_countries_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - core
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedBaseCountryList'
+          description: ''
+  /core/api/v1/countries/{id}/:
+    get:
+      operationId: core_api_v1_countries_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this country.
+        required: true
+      tags:
+      - core
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseCountry'
+          description: ''
+  /core/api/v1/sources/:
+    get:
+      operationId: core_api_v1_sources_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - core
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedBaseSourceList'
+          description: ''
+  /core/api/v1/sources/{id}/:
+    get:
+      operationId: core_api_v1_sources_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this source.
+        required: true
+      tags:
+      - core
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseSource'
+          description: ''
 components:
   schemas:
+    ArticleGET:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        source:
+          allOf:
+          - $ref: '#/components/schemas/BaseSource'
+          readOnly: true
+        author:
+          allOf:
+          - $ref: '#/components/schemas/BaseAuthor'
+          readOnly: true
+        country:
+          allOf:
+          - $ref: '#/components/schemas/BaseCountry'
+          readOnly: true
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/BaseCategory'
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Created time
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Updated time
+        title:
+          type: string
+          nullable: true
+        description:
+          type: string
+          nullable: true
+          title: Short Description
+        content:
+          type: string
+          nullable: true
+          title: Full Content
+        url:
+          type: string
+          format: uri
+          title: Article URL
+          maxLength: 200
+        url_to_image:
+          type: string
+          format: uri
+          nullable: true
+          title: Image URL
+          maxLength: 1000
+        published_at:
+          type: string
+          format: date-time
+        fetched_at:
+          type: string
+          format: date-time
+        is_active:
+          type: boolean
+        views:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          title: View Count
+      required:
+      - author
+      - categories
+      - country
+      - created_at
+      - id
+      - published_at
+      - source
+      - updated_at
+      - url
+    BaseAuthor:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          title: Author Name
+          maxLength: 255
+        bio:
+          type: string
+          nullable: true
+          title: Biography
+        profile_url:
+          type: string
+          format: uri
+          nullable: true
+          maxLength: 200
+      required:
+      - id
+      - name
+    BaseCategory:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Created time
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Updated time
+        name:
+          type: string
+          title: Category name
+          maxLength: 100
+      required:
+      - created_at
+      - id
+      - name
+      - updated_at
+    BaseCountry:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Created time
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Updated time
+        name:
+          type: string
+          title: Country name
+          maxLength: 100
+        code:
+          type: string
+          title: Country code
+          maxLength: 10
+      required:
+      - code
+      - created_at
+      - id
+      - name
+      - updated_at
+    BaseProfile:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Created time
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Updated time
+        bio:
+          type: string
+          nullable: true
+          title: Biography
+        user:
+          type: integer
+        country_preferences:
+          type: array
+          items:
+            type: integer
+            title: Country Preferences
+        source_preferences:
+          type: array
+          items:
+            type: integer
+            title: Source Preferences
+        category_preferences:
+          type: array
+          items:
+            type: integer
+            title: Category Preferences
+      required:
+      - created_at
+      - id
+      - updated_at
+      - user
+    BaseSource:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Created time
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Updated time
+        name:
+          type: string
+          title: Source name
+          maxLength: 100
+        source_id:
+          type: string
+          nullable: true
+          title: Source ID (from API)
+          maxLength: 100
+        url:
+          type: string
+          format: uri
+          nullable: true
+          title: Source URL
+          maxLength: 200
+      required:
+      - created_at
+      - id
+      - name
+      - updated_at
     LoginData:
       type: object
       properties:
@@ -215,6 +850,181 @@ components:
       - id
       - last_name
       - username
+    PaginatedArticleGETList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ArticleGET'
+    PaginatedBaseAuthorList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/BaseAuthor'
+    PaginatedBaseCategoryList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/BaseCategory'
+    PaginatedBaseCountryList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/BaseCountry'
+    PaginatedBaseSourceList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/BaseSource'
+    PaginatedProfileGETList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProfileGET'
+    PatchedBaseProfile:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Created time
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Updated time
+        bio:
+          type: string
+          nullable: true
+          title: Biography
+        user:
+          type: integer
+        country_preferences:
+          type: array
+          items:
+            type: integer
+            title: Country Preferences
+        source_preferences:
+          type: array
+          items:
+            type: integer
+            title: Source Preferences
+        category_preferences:
+          type: array
+          items:
+            type: integer
+            title: Category Preferences
     PatchedLoginData:
       type: object
       properties:
@@ -244,6 +1054,51 @@ components:
           type: string
           format: date-time
           readOnly: true
+    ProfileGET:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        source_preferences:
+          type: array
+          items:
+            $ref: '#/components/schemas/BaseSource'
+          readOnly: true
+        country_preferences:
+          type: array
+          items:
+            $ref: '#/components/schemas/BaseCountry'
+          readOnly: true
+        category_preferences:
+          type: array
+          items:
+            $ref: '#/components/schemas/BaseCategory'
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Created time
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Updated time
+        bio:
+          type: string
+          nullable: true
+          title: Biography
+        user:
+          type: integer
+      required:
+      - category_preferences
+      - country_preferences
+      - created_at
+      - id
+      - source_preferences
+      - updated_at
+      - user
   securitySchemes:
     jwtAuth:
       type: http

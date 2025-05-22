@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "django_celery_results",
+    "django_celery_beat",
     "django_filters",
     "apps.authentication",
     "apps.core",
@@ -164,3 +166,10 @@ SPECTACULAR_SETTINGS = {
 }
 
 NEWS_API_KEY = os.environ.get("NEWS_API_KEY")
+
+
+CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL")
+CELERY_RESULT_BACKEND = "django-db"
+CELERY_TIMEZONE = "Pacific/Auckland"
+CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
+CELERY_RESULT_EXTENDED = True
