@@ -1,11 +1,14 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
-from apps.core.models import Author, Category, Countries, Source
+from apps.core.models import Author, BaseModel, Category, Countries, Source
+
+User = get_user_model()
 
 
-class Article(models.Model):
+class Article(BaseModel):
     title = models.TextField(blank=True, null=True, verbose_name=_("Title"))
     description = models.TextField(
         blank=True, null=True, verbose_name=_("Short Description")
@@ -57,3 +60,40 @@ class Article(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Profile(BaseModel):
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        related_name="profile",
+        verbose_name=_("User"),
+    )
+    bio = models.TextField(blank=True, null=True, verbose_name=_("Biography"))
+
+    country_preferences = models.ManyToManyField(
+        Countries,
+        blank=True,
+        related_name="country_preferences",
+        verbose_name=_("Country Preferences"),
+    )
+    source_preferences = models.ManyToManyField(
+        Source,
+        blank=True,
+        related_name="source_preferences",
+        verbose_name=_("Source Preferences"),
+    )
+    category_preferences = models.ManyToManyField(
+        Category,
+        blank=True,
+        related_name="category_preferences",
+        verbose_name=_("Category Preferences"),
+    )
+
+    def __str__(self):
+        return f"{self.user.first_name}'s Profile"
+
+    class Meta:
+        ordering = ["-id"]
+        verbose_name = _("Profile")
+        verbose_name_plural = _("Profiles")
