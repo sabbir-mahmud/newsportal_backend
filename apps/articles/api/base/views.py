@@ -21,7 +21,8 @@ class BaseArticleModelView(viewsets.ReadOnlyModelViewSet):
     pagination_class = StandardPagination
 
     def get_queryset(self):
-        if self.request.user.is_authenticated:
+        search = self.request.query_params.get("search", None)
+        if self.request.user.is_authenticated and not search:
             preferences = self.request.user.profile
             country_preferences = preferences.country_preferences.values_list(
                 "id", flat=True
@@ -37,6 +38,14 @@ class BaseArticleModelView(viewsets.ReadOnlyModelViewSet):
                 Q(source__in=source_preferences),
                 Q(categories__in=category_preferences),
             )
+
+        if search:
+            return Article.objects.filter(
+                Q(title__icontains=search)
+                | Q(description__icontains=search)
+                | Q(source__name__icontains=search)
+                | Q(country__name__icontains=search)
+            ).distinct()
 
         return super().get_queryset()
 

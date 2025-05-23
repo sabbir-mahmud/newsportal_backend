@@ -56,7 +56,7 @@ class Article(BaseModel):
     class Meta:
         verbose_name = _("Article")
         verbose_name_plural = _("Articles")
-        ordering = ["-published_at"]
+        ordering = ["-id"]
 
     def __str__(self):
         return self.title
