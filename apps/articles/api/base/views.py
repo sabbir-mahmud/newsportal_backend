@@ -22,7 +22,17 @@ class BaseArticleModelView(viewsets.ReadOnlyModelViewSet):
 
     def get_queryset(self):
         search = self.request.query_params.get("search", None)
-        if self.request.user.is_authenticated and not search:
+        category = self.request.query_params.get("category", None)
+        country = self.request.query_params.get("country", None)
+        source = self.request.query_params.get("source", None)
+
+        if (
+            self.request.user.is_authenticated
+            and not search
+            and not category
+            and not country
+            and not source
+        ):
             preferences = self.request.user.profile
             country_preferences = preferences.country_preferences.values_list(
                 "id", flat=True
@@ -47,7 +57,16 @@ class BaseArticleModelView(viewsets.ReadOnlyModelViewSet):
                 | Q(country__name__icontains=search)
             ).distinct()
 
-        return super().get_queryset()
+        queryset = super().get_queryset()
+
+        if category:
+            queryset = queryset.filter(categories__id=category)
+        if country:
+            queryset = queryset.filter(country__id=country)
+        if source:
+            queryset = queryset.filter(source__id=source)
+
+        return queryset
 
     def get_serializer_class(self):
         if self.action in ["list", "retrieve"]:
